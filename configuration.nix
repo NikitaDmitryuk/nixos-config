@@ -66,6 +66,8 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -112,17 +114,17 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  	vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+  	vim
   	wget
-	vscode
-	google-chrome
-	curl
-	emacs
-	git
-	telegram-desktop
-	gparted
-	ntfs3g
-	minidlna
+    vscode
+    google-chrome
+    curl
+    emacs
+    git
+    telegram-desktop
+    gparted
+    ntfs3g
+    minidlna
   ];
   
   fileSystems."/mnt/D" = {
