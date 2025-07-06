@@ -30,10 +30,10 @@
 
   age.secretsDir = ./secrets;
 
-  age.secrets."user-password" = {
-    file = "${config.age.secretsDir}/user-password.age";
+  age.secrets."userpassword" = {
+    file = "${config.age.secretsDir}/userpassword.age";
     owner = "nikita";
-    mode = "400";
+    mode = "0400";
   };
 
   # Enable networking
@@ -107,7 +107,6 @@
     isNormalUser = true;
     description = "Nikita";
     extraGroups = [ "networkmanager" "wheel" ];
-    hashedPasswordFile = config.age.secrets."user-password".path;
     packages = with pkgs; [
       kdePackages.kate
     #  thunderbird

@@ -11,9 +11,10 @@
     # agenix
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
+    agenix-template.url = "github:jhillyerd/agenix-template";
   };
 
-  outputs = { self, nixpkgs, home-manager, agenix, ... }:
+  outputs = { self, nixpkgs, home-manager, agenix, agenix-template, ... }:
     let
       system = "x86_64-linux";
       pkgs   = nixpkgs.legacyPackages.${system};
@@ -32,6 +33,7 @@
 
           # Сначала системный agenix-модуль (с патчем ln -sfnT)
           agenix.nixosModules.default
+          agenix-template.nixosModules.default
 
           # Затем интеграция Home-Manager
           home-manager.nixosModules.home-manager
