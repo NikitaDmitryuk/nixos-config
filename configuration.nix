@@ -28,6 +28,14 @@
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
+  age.secretsDir = ./secrets;
+
+  age.secrets.user-password = {
+    file = ./secrets/user-password.age;
+    owner = "nikita";
+    mode = "400";
+  };
+
   # Enable networking
   networking.networkmanager.enable = true;
 
@@ -99,6 +107,7 @@
     isNormalUser = true;
     description = "Nikita";
     extraGroups = [ "networkmanager" "wheel" ];
+    passwordFile = config.age.secrets.user-password.path;
     packages = with pkgs; [
       kdePackages.kate
     #  thunderbird
@@ -157,7 +166,7 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh.enable = true;
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 8200 ];
