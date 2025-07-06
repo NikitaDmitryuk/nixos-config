@@ -17,6 +17,7 @@
       },
       "original": {
         "owner": "ryantm",
+        "ref": "main",
         "repo": "agenix",
         "type": "github"
       }
