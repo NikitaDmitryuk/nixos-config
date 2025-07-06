@@ -8,7 +8,6 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      agenix.nixosModules.default
     ];
 
   # Bootloader.
@@ -31,8 +30,8 @@
 
   age.secretsDir = ./secrets;
 
-  age.secrets.user-password = {
-    file = ./secrets/user-password.age;
+  age.secrets."user-password" = {
+    file = "${config.age.secretsDir}/user-password.age";
     owner = "nikita";
     mode = "400";
   };
@@ -108,7 +107,7 @@
     isNormalUser = true;
     description = "Nikita";
     extraGroups = [ "networkmanager" "wheel" ];
-    hashedPasswordFile = config.age.secrets.user-password.path;
+    hashedPasswordFile = config.age.secrets."user-password".path;
     packages = with pkgs; [
       kdePackages.kate
     #  thunderbird

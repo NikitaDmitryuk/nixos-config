@@ -1,27 +1,49 @@
-# ~/nixos-config/flake.nix
 {
   description = "My NixOS Configuration";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    agenix.url = "github:ryantm/agenix";
+
+    # Home Manager
     home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    # agenix
+    agenix.url = "github:ryantm/agenix";
+    agenix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, agenix, home-manager, ... }: {
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+  outputs = { self, nixpkgs, home-manager, agenix, ... }:
+    let
       system = "x86_64-linux";
-      modules = [
-        ./configuration.nix
-        ./hardware-configuration.nix
-        home-manager.nixosModules.home-manager
-        agenix.nixosModules.default
-      ];
+      pkgs   = nixpkgs.legacyPackages.${system};
+    in {
+      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+        inherit system;
+
+        # Прокидываем модули в конфиг
+        specialArgs = {
+          inherit home-manager agenix;
+        };
+
+        modules = [
+          ./hardware-configuration.nix
+          ./configuration.nix
+
+          # Сначала системный agenix-модуль (с патчем ln -sfnT)
+          agenix.nixosModules.default
+
+          # Затем интеграция Home-Manager
+          home-manager.nixosModules.home-manager
+        ];
+
+        # (другие опции, например boot.loader и т.д.)
+      };
+
+      devShells.${system}.default = pkgs.mkShell {
+        buildInputs = [
+          agenix.packages.${system}.default
+        ];
+      };
     };
-    devShells.x86_64-linux.default = nixpkgs.legacyPackages.x86_64-linux.mkShell {
-      packages = [
-        agenix.packages.x86_64-linux.default
-      ];
-    };
-  };
 }
