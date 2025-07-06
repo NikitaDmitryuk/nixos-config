@@ -107,7 +107,7 @@
     isNormalUser = true;
     description = "Nikita";
     extraGroups = [ "networkmanager" "wheel" ];
-    passwordFile = config.age.secrets.user-password.path;
+    hashedPasswordFile = config.age.secrets.user-password.path;
     packages = with pkgs; [
       kdePackages.kate
     #  thunderbird
