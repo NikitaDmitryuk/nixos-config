@@ -22,7 +22,6 @@
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         inherit system;
 
-        # Прокидываем модули в конфиг
         specialArgs = {
           inherit home-manager agenix;
           secrets = builtins.toString ./secrets;
@@ -32,15 +31,11 @@
           ./hardware-configuration.nix
           ./configuration.nix
 
-          # Сначала системный agenix-модуль (с патчем ln -sfnT)
           agenix.nixosModules.default
           agenix-template.nixosModules.default
 
-          # Затем интеграция Home-Manager
           home-manager.nixosModules.home-manager
         ];
-
-        # (другие опции, например boot.loader и т.д.)
       };
 
       devShells.${system}.default = pkgs.mkShell {

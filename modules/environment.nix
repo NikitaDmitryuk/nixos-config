@@ -14,6 +14,5 @@
     ntfs3g
     minidlna
     firefox
-    agenix
   ];
 }
