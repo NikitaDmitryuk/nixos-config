@@ -5,7 +5,7 @@
     isNormalUser      = true;
     description       = "Nikita";
     extraGroups       = [ "networkmanager" "wheel" ];
-    hashedPasswordFile = config.age.secrets."userpassword".path;
+    hashedPasswordFile = config.age.secrets.userpassword.path;
 
     packages = with pkgs; [
       kdePackages.kate

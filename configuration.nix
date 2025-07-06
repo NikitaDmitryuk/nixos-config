@@ -7,7 +7,6 @@
       ./modules/bootloader.nix
       ./modules/networking.nix
       ./modules/firewall.nix
-      ./modules/vpn.nix
       ./modules/internationalisation.nix
       ./modules/desktop.nix
       ./modules/services.nix
