@@ -25,6 +25,7 @@
         # Прокидываем модули в конфиг
         specialArgs = {
           inherit home-manager agenix;
+          secrets = builtins.toString ./secrets;
         };
 
         modules = [

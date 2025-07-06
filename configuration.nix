@@ -28,10 +28,8 @@
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  age.secretsDir = ./secrets;
-
-  age.secrets."userpassword" = {
-    file = "${config.age.secretsDir}/userpassword.age";
+  age.secrets.userpassword = {
+    file = ./secrets/userpassword.age;
     owner = "nikita";
     mode = "0400";
   };
@@ -107,6 +105,7 @@
     isNormalUser = true;
     description = "Nikita";
     extraGroups = [ "networkmanager" "wheel" ];
+    hashedPasswordFile = config.age.secrets.userpassword.path;
     packages = with pkgs; [
       kdePackages.kate
     #  thunderbird
